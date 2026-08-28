@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmit": false,
+    "incremental": false,
+    "outDir": ".test-build",
+    "rootDir": "src/lib"
+  },
+  "include": [
+    "src/lib/grades.ts",
+    "src/lib/subjects.ts",
+    "src/lib/grades.test.ts"
+  ]
+}
