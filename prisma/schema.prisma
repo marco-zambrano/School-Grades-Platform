@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Teacher {
+  id           String       @id @default(cuid())
+  email        String       @unique
+  name         String
+  passwordHash String
+  schoolYears  SchoolYear[]
+  createdAt    DateTime     @default(now())
+}
+
+model SchoolYear {
+  id        String   @id @default(cuid())
+  teacherId String
+  teacher   Teacher  @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  label     String
+  courses   Course[]
+  createdAt DateTime @default(now())
+
+  @@unique([teacherId, label])
+}
+
+model Course {
+  id           String               @id @default(cuid())
+  schoolYearId String
+  schoolYear   SchoolYear           @relation(fields: [schoolYearId], references: [id], onDelete: Cascade)
+  gradeLabel   String
+  parallel     String
+  students     Student[]
+  trimesters   TrimesterGradebook[]
+  createdAt    DateTime             @default(now())
+
+  @@unique([schoolYearId, gradeLabel, parallel])
+}
+
+model Student {
+  id       String  @id @default(cuid())
+  courseId String
+  course   Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  fullName String
+  sortOrder Int
+  grades   Grade[]
+}
+
+model TrimesterGradebook {
+  id        String             @id @default(cuid())
+  courseId  String
+  course    Course             @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  number    Int
+  subjects  SubjectGradebook[]
+
+  @@unique([courseId, number])
+}
+
+model SubjectGradebook {
+  id          String              @id @default(cuid())
+  trimesterId String
+  trimester   TrimesterGradebook  @relation(fields: [trimesterId], references: [id], onDelete: Cascade)
+  subjectCode String
+  activities  Activity[]
+
+  @@unique([trimesterId, subjectCode])
+}
+
+model Activity {
+  id                 String           @id @default(cuid())
+  subjectGradebookId String
+  subjectGradebook   SubjectGradebook @relation(fields: [subjectGradebookId], references: [id], onDelete: Cascade)
+  name               String
+  type               String
+  sortOrder          Int
+  locked             Boolean          @default(false)
+  grades             Grade[]
+}
+
+model Grade {
+  id         String   @id @default(cuid())
+  activityId String
+  activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  studentId  String
+  student    Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  value      Float
+
+  @@unique([activityId, studentId])
+}
