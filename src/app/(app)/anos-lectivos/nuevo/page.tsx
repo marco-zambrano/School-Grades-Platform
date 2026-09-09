@@ -11,7 +11,7 @@ export default async function NewSchoolYearPage() {
         subtitle="Cree el período en el que organizará sus cursos."
         backHref="/"
       />
-      <section className="rounded-3xl border-2 border-slate-200 bg-white p-6 shadow-sm">
+      <section className="app-card rounded-3xl p-6">
         <SchoolYearForm />
       </section>
     </div>

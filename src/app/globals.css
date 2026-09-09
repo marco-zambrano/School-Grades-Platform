@@ -1,8 +1,60 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  color-scheme: dark;
+  --page: #191816;
+  --surface: #24221e;
+  --surface-raised: #2d2a25;
+  --surface-muted: #201e1b;
+  --border: #48433a;
+  --text: #f3f0e8;
+  --muted: #b6afa2;
+  --accent: #7e9e72;
+  --accent-strong: #9abb87;
+  --accent-ink: #132015;
+}
+
+:root:not(.dark) {
+  color-scheme: light;
+  --page: #f4f1ea;
+  --surface: #fffcf6;
+  --surface-raised: #ffffff;
+  --surface-muted: #ece8de;
+  --border: #d7d0c2;
+  --text: #27241f;
+  --muted: #6f685e;
+  --accent: #416448;
+  --accent-strong: #315239;
+  --accent-ink: #ffffff;
+}
+
+* { border-color: var(--border); }
+
 body {
+  min-height: 100%;
+  background: var(--page);
+  color: var(--text);
   font-family: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
 }
+
+button, input, select { font: inherit; }
+
+.app-shell { min-height: 100vh; background: radial-gradient(circle at top right, color-mix(in srgb, var(--accent) 12%, transparent), transparent 32rem), var(--page); }
+.app-nav { border-bottom: 1px solid var(--border); background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(14px); }
+.app-card { border: 1px solid var(--border); background: var(--surface); box-shadow: 0 16px 40px rgb(0 0 0 / 0.12); }
+.app-card-muted { background: var(--surface-muted); }
+.form-control { border: 1px solid var(--border); background: var(--surface-raised); color: var(--text); transition: border-color .15s, box-shadow .15s; }
+.form-control:focus { border-color: var(--accent-strong); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 24%, transparent); }
+.btn-primary { background: var(--accent); color: var(--accent-ink); box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 20%, transparent); }
+.btn-primary:hover { background: var(--accent-strong); }
+.btn-secondary { border: 1px solid var(--border); background: var(--surface-raised); color: var(--text); }
+.btn-secondary:hover { background: var(--surface-muted); border-color: var(--accent); }
+.text-muted { color: var(--muted); }
+.text-accent { color: var(--accent-strong); }
+.theme-toggle { border: 1px solid var(--border); background: var(--surface-raised); color: var(--text); }
+.theme-toggle:hover { border-color: var(--accent); }
 
 @media print {
   nav,

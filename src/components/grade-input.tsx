@@ -53,11 +53,11 @@ export function GradeInput({
           persist(e.target.value);
         }}
         onBlur={() => persist(raw)}
-        className="w-full min-w-20 rounded-xl border-2 border-slate-300 bg-white px-3 py-3 text-center text-xl tabular-nums outline-none focus:border-sky-600"
+        className="form-control w-full min-w-20 rounded-xl px-3 py-3 text-center text-xl tabular-nums outline-none"
         placeholder="—"
       />
       {status === "error" ? (
-        <p className="mt-1 text-sm font-medium text-rose-700">{message}</p>
+        <p className="mt-1 text-sm font-medium text-rose-400">{message}</p>
       ) : null}
     </div>
   );

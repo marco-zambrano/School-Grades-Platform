@@ -20,10 +20,10 @@ export function AddActivityForm({
   return (
     <form
       action={formAction}
-      className="rounded-3xl border-2 border-dashed border-slate-300 bg-white p-6"
+      className="app-card rounded-3xl border-dashed p-6"
     >
-      <h3 className="text-xl font-bold text-slate-900">Añadir actividad</h3>
-      <p className="mt-1 text-slate-600">
+      <h3 className="text-xl font-bold">Añadir actividad</h3>
+      <p className="text-muted mt-1">
         Use esto en lugar de columnas vacías. Ponga el nombre que usa en clase.
       </p>
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -33,14 +33,14 @@ export function AddActivityForm({
             name="name"
             required
             placeholder="Ej. Comprensión lectora 2"
-            className="w-full rounded-xl border-2 border-slate-300 px-4 py-3 text-lg outline-none focus:border-sky-600"
+            className="form-control w-full rounded-xl px-4 py-3 text-lg outline-none"
           />
         </label>
         <label className="block sm:col-span-2">
           <span className="mb-1 block text-lg font-medium">Tipo</span>
           <select
             name="type"
-            className="w-full rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-lg outline-none focus:border-sky-600"
+            className="form-control w-full rounded-xl px-4 py-3 text-lg outline-none"
             defaultValue="INDIVIDUAL"
           >
             <option value="INDIVIDUAL">Individual</option>
@@ -49,7 +49,7 @@ export function AddActivityForm({
         </label>
       </div>
       {state?.error ? (
-        <p className="mt-3 font-medium text-rose-700">{state.error}</p>
+        <p className="mt-3 font-medium text-rose-400">{state.error}</p>
       ) : null}
       <div className="mt-4">
         <PrimaryButton type="submit">Guardar actividad</PrimaryButton>
@@ -70,11 +70,11 @@ export function DeleteActivityButton({ activityId }: { activityId: string }) {
           const result = await deleteActivity(activityId);
           setError(result?.error ?? "");
         })}
-        className="rounded-lg px-2 py-1 text-sm font-semibold text-rose-700 hover:bg-rose-50 disabled:opacity-60"
+        className="rounded-lg px-2 py-1 text-sm font-semibold text-rose-400 hover:bg-rose-950/30 disabled:opacity-60"
       >
         {pending ? "Eliminando…" : "Eliminar"}
       </button>
-      {error ? <p className="mt-1 text-xs font-medium text-rose-700">{error}</p> : null}
+      {error ? <p className="mt-1 text-xs font-medium text-rose-400">{error}</p> : null}
     </div>
   );
 }

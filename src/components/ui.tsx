@@ -19,16 +19,16 @@ export function PageHeader({
         {backHref ? (
           <Link
             href={backHref}
-            className="mb-2 inline-block text-base font-medium text-sky-800 underline-offset-4 hover:underline"
+            className="text-accent mb-2 inline-block text-base font-medium underline-offset-4 hover:underline"
           >
             ← {backLabel}
           </Link>
         ) : null}
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
           {title}
         </h1>
         {subtitle ? (
-          <p className="mt-2 max-w-2xl text-lg text-slate-600">{subtitle}</p>
+          <p className="text-muted mt-2 max-w-2xl text-lg">{subtitle}</p>
         ) : null}
       </div>
       {actions ? <div className="flex flex-wrap gap-3">{actions}</div> : null}
@@ -43,7 +43,7 @@ export function PrimaryButton({
   return (
     <button
       {...props}
-      className={`inline-flex min-h-12 items-center justify-center rounded-2xl bg-sky-700 px-5 py-3 text-lg font-semibold text-white shadow-sm hover:bg-sky-800 disabled:opacity-60 ${props.className ?? ""}`}
+      className={`btn-primary inline-flex min-h-12 items-center justify-center rounded-2xl px-5 py-3 text-lg font-semibold disabled:opacity-60 ${props.className ?? ""}`}
     >
       {children}
     </button>
@@ -53,22 +53,22 @@ export function PrimaryButton({
 export function SecondaryLink({
   href,
   children,
-  color = "sky",
+  color = "stone",
 }: {
   href: string;
   children: React.ReactNode;
-  color?: "sky" | "rose" | "emerald" | "amber";
+  color?: "stone" | "rose" | "emerald" | "amber";
 }) {
   const colors = {
-    sky: "bg-sky-700 hover:bg-sky-800",
-    rose: "bg-rose-600 hover:bg-rose-700",
-    emerald: "bg-emerald-700 hover:bg-emerald-800",
-    amber: "bg-amber-600 hover:bg-amber-700",
+    stone: "btn-secondary",
+    rose: "bg-rose-700 text-white hover:bg-rose-800",
+    emerald: "btn-primary",
+    amber: "bg-amber-700 text-white hover:bg-amber-800",
   };
   return (
     <Link
       href={href}
-      className={`inline-flex min-h-12 items-center justify-center rounded-2xl px-5 py-3 text-center text-lg font-semibold text-white shadow-sm ${colors[color]}`}
+      className={`inline-flex min-h-12 items-center justify-center rounded-2xl px-5 py-3 text-center text-lg font-semibold ${colors[color]}`}
     >
       {children}
     </Link>
@@ -92,14 +92,14 @@ export function Field({
 }) {
   return (
     <label className="block">
-      <span className="mb-1 block text-lg font-medium text-slate-800">{label}</span>
+      <span className="mb-1 block text-lg font-medium">{label}</span>
       <input
         name={name}
         type={type}
         required={required}
         placeholder={placeholder}
         defaultValue={defaultValue}
-        className="w-full rounded-xl border-2 border-slate-300 bg-white px-4 py-3 text-lg text-slate-900 outline-none focus:border-sky-600"
+        className="form-control w-full rounded-xl px-4 py-3 text-lg outline-none"
       />
     </label>
   );
@@ -117,11 +117,11 @@ export function CardLink({
   return (
     <Link
       href={href}
-      className="block rounded-3xl border-2 border-slate-200 bg-white p-6 shadow-sm transition hover:border-sky-400 hover:shadow-md"
+      className="app-card block rounded-3xl p-6 transition hover:-translate-y-0.5 hover:border-[var(--accent)] hover:shadow-lg"
     >
-      <h2 className="text-2xl font-bold text-slate-900">{title}</h2>
+      <h2 className="text-2xl font-bold">{title}</h2>
       {description ? (
-        <p className="mt-2 text-lg text-slate-600">{description}</p>
+        <p className="text-muted mt-2 text-lg">{description}</p>
       ) : null}
     </Link>
   );
