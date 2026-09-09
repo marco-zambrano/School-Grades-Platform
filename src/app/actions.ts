@@ -112,18 +112,6 @@ export async function addStudent(courseId: string, formData: FormData) {
   revalidatePath(`/cursos/${courseId}`);
 }
 
-export async function updateStudent(studentId: string, formData: FormData) {
-  const id = await teacherId();
-  const fullName = String(formData.get("fullName") ?? "").trim();
-  if (!fullName) return { error: "El nombre no puede quedar vacío." };
-  const student = await prisma.student.findFirst({
-    where: { id: studentId, course: { schoolYear: { teacherId: id } } },
-  });
-  if (!student) return { error: "Estudiante no encontrado." };
-  await prisma.student.update({ where: { id: studentId }, data: { fullName } });
-  revalidatePath(`/cursos/${student.courseId}`);
-}
-
 export async function deleteStudent(studentId: string) {
   const id = await teacherId();
   const student = await prisma.student.findFirst({
@@ -243,37 +231,4 @@ export async function saveGrade(input: {
   });
   revalidatePath(path);
   return { ok: true };
-}
-
-export async function copyCourseToYear(formData: FormData) {
-  const id = await teacherId();
-  const courseId = String(formData.get("courseId") ?? "");
-  const schoolYearId = String(formData.get("schoolYearId") ?? "");
-  const source = await prisma.course.findFirst({
-    where: { id: courseId, schoolYear: { teacherId: id } },
-    include: { students: { orderBy: { sortOrder: "asc" } } },
-  });
-  const year = await prisma.schoolYear.findFirst({
-    where: { id: schoolYearId, teacherId: id },
-  });
-  if (!source || !year) return { error: "No se pudo copiar el curso." };
-  const course = await prisma.course.create({
-    data: {
-      schoolYearId,
-      gradeLabel: source.gradeLabel,
-      parallel: source.parallel,
-    },
-  });
-  await seedCourseGradebooks(course.id);
-  for (const student of source.students) {
-    await prisma.student.create({
-      data: {
-        courseId: course.id,
-        fullName: student.fullName,
-        sortOrder: student.sortOrder,
-      },
-    });
-  }
-  revalidatePath("/");
-  redirect(`/cursos/${course.id}`);
 }
